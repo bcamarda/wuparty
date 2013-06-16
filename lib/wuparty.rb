@@ -41,7 +41,7 @@ module HTTParty
                                          io_objects)
 
           # We have to duplicate and merge the headers set by the
-          # multipart object to make sure that Net::HTTP 
+          # multipart object to make sure that Net::HTTP
           # doesn't override them down the line when it calls
           # initialize_http_header.
           #
@@ -300,7 +300,7 @@ class WuParty
 
       if options[:limit]
         query[:pageSize] = options[:limit]
-        query[:pageStart] = 0
+        query[:pageStart] = options[:pageStart] || 0
       end
 
       if options[:system]
@@ -312,7 +312,7 @@ class WuParty
         query[:sort] = field
         query[:sortDirection] = direction || 'ASC'
       end
-      
+
       @party.get("forms/#{@id}/entries", :query => query)['Entries']
     end
 
@@ -331,7 +331,7 @@ class WuParty
         options[:filters].each_with_index do |filter, index|
           query["Filter#{ index + 1 }"] = filter.join(' ')
         end
-      end   
+      end
 
       if options[:system]
         query[:system] = true
