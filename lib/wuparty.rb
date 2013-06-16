@@ -316,6 +316,18 @@ class WuParty
       @party.get("forms/#{@id}/entries", :query => query)['Entries']
     end
 
+    def all_entries
+      current_entry = 0
+      total_entries = []
+      next_entries = entries(limit: 100, pageStart: current_entry)
+      while next_entries.present?
+        total_entries += next_entries
+        current_entry += 100
+        next_entries = entries(limit: 100, pageStart: current_entry)
+      end
+      total_entries
+    end
+
     # Return entries already submitted to the form.
     #
     # Supports:
